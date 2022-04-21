@@ -16,7 +16,7 @@ spec:
         app: meet-stackit
     spec:
       containers:
-      - image: hoehne/meet-stackit
+      - image: hoehne/meet-stackit:latest
         name: meet-stackit
         resources: {}
 ---
@@ -28,8 +28,8 @@ metadata:
   name: meet-stackit-service
 spec:
   ports:
-  - name: 8080-8080
-    port: 8080
+  - name: 8080-80
+    port: 80
     protocol: TCP
     targetPort: 8080
   selector:

@@ -1,19 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
   labels:
     app: meet-stackit
-  name: meet-stackit
+  name: meet-stackit-pod
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: meet-stackit
   strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: meet-stackit
     spec:
@@ -21,14 +19,13 @@ spec:
       - image: hoehne/meet-stackit
         name: meet-stackit
         resources: {}
-status: {}
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: meet-stackit
-  name: meet-stackit
+  name: meet-stackit-service
 spec:
   ports:
   - name: 8080-8080
@@ -37,6 +34,4 @@ spec:
     targetPort: 8080
   selector:
     app: meet-stackit
-  type: ClusterIP
-status:
-  loadBalancer: {}
+  type: LoadBalancer

@@ -27,7 +27,21 @@
 
 # local test
 
-* activate port forward `kubectl port-forward service/meet-stackit 8080:8080` ==> http://localhost:8080/actuator/health
+* activate port forward `kubectl port-forward service/meet-stackit-service 8080:8080` ==> http://localhost:8080/actuator/health
+
+# public test
+
+* get external IP `kubectl get service meet-stackit-service ` e.g.: 193.148.167.139
+* open http://193.148.167.139:8080/hello?name=Geht Dich nichts an
+
+
+# Install K8N Dashboard to get an better visualisation
+
+* `kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.5.0/aio/deploy/recommended.yaml`
+* start proxy `kubectl proxy`
+* open http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+* select kube config
+
 
 
 

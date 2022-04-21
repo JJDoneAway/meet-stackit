@@ -16,7 +16,19 @@ public class Name {
 	private String name;
 	private Duration duration;
 	
-	public List<String> getEnV() {
+	public String getPodName() {
+		return EnvironmentHelper.getPodName();
+	}
+	
+	public String getHostName() {
+		return EnvironmentHelper.getHostName();
+	}
+	
+	public String getHostIP() {
+		return EnvironmentHelper.getHostIP();
+	}
+	
+	public List<String> getEnvironment() {
 		return EnvironmentHelper.getEnv();
 
 	}

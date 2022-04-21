@@ -9,7 +9,6 @@ spec:
   selector:
     matchLabels:
       app: meet-stackit
-  strategy: {}
   template:
     metadata:
       labels:
@@ -18,7 +17,25 @@ spec:
       containers:
       - image: hoehne/meet-stackit:latest
         name: meet-stackit
-        resources: {}
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "0.01"
+          limits:
+            cpu: "0.02"
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: actuator/health/livenessState
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: actuator/health/readinessState
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 3
 ---
 apiVersion: v1
 kind: Service

@@ -1,7 +1,7 @@
 # Stuff to read
 
 * https://spring.io/guides/gs/spring-boot-kubernetes/
-
+* https://spring.io/guides/topicals/spring-on-kubernetes/
 
 # Setup
 

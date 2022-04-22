@@ -52,6 +52,7 @@ public class GreetController {
 						HttpStatus.OK);				
 			} else {
 				error.increment();
+				log.error("Random exception for test reasons");
 				return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);				
 			}
 			

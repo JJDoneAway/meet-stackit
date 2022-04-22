@@ -2,6 +2,7 @@
 
 * https://spring.io/guides/gs/spring-boot-kubernetes/
 * https://spring.io/guides/topicals/spring-on-kubernetes/
+* https://medium.com/kubernetes-tutorials/monitoring-your-kubernetes-deployments-with-prometheus-5665eda54045
 
 # Setup
 
@@ -29,6 +30,7 @@
 
 * activate port forward `kubectl port-forward service/meet-stackit-service 8080:8080` ==> http://localhost:8080/actuator/health
 
+
 # public test
 
 * get external IP `kubectl get service meet-stackit-service ` e.g.: 193.148.167.139
@@ -41,6 +43,11 @@
 * start proxy `kubectl proxy`
 * open http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
 * select kube config
+
+
+# Install Prometheus Support 
+
+* `kubectl create -f installPrometheusSupport/deployRBAC.yaml`
 
 
 

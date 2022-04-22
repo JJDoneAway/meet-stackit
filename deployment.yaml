@@ -6,6 +6,7 @@ metadata:
   name: meet-stackit-pod
 spec:
   replicas: 3
+  revisionHistoryLimit: 0
   selector:
     matchLabels:
       app: meet-stackit

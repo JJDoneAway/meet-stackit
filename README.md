@@ -47,7 +47,12 @@
 
 # Install Prometheus Support 
 
-* `kubectl create -f installPrometheusSupport/deployRBAC.yaml`
+* Deploy RBAC for access rights `kubectl create -f installPrometheusSupport/deployRBAC.yaml`
+* Deploy Prometheus configuration `kubectl create configmap prometheus-config --from-file ./installPrometheusSupport/prometheus.yaml`
+* Deploy Prometheus `kubectl apply -f ./installPrometheusSupport/deployPrometheus.yaml`
+* Get IP of Prometheus: `kubectl get service prometheus-service` e.g.: 193.148.173.184
+* Check if UI is available http://193.148.173.184:9090
+
 
 
 

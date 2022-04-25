@@ -21,14 +21,16 @@ spec:
         resources:
           requests:
             memory: "100Mi"
+            cpu: "0.02"
           limits:
             memory: "500Mi"
+            cpu: "0.05"
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
             path: actuator/health/livenessState
             port: 8080
-          initialDelaySeconds: 3
+          initialDelaySeconds: 5
           periodSeconds: 3
         readinessProbe:
           httpGet:

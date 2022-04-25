@@ -24,6 +24,7 @@
 
 * apply configuration `kubectl apply -f deployment.yaml`
 * Check result `kubectl get all`
+* Just redeploy `kubectl -n default rollout restart deployment meet-stackit-pod`
 
 
 # local test

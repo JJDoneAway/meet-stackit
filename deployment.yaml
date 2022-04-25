@@ -20,10 +20,10 @@ spec:
         name: meet-stackit
         resources:
           requests:
-            memory: "100Mi"
+            memory: 100Mi
             cpu: 250m
           limits:
-            memory: "500Mi"
+            memory: 600Mi
             cpu: 2000m
         imagePullPolicy: Always
         livenessProbe:

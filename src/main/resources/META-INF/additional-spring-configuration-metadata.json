@@ -1,5 +1,0 @@
-{"properties": [{
-  "name": "meet_stackit.service.name",
-  "type": "java.lang.String",
-  "description": "The base URL to the sample service"
-}]}

@@ -48,6 +48,7 @@
 # Install Prometheus Support 
 
 * Deploy RBAC for access rights `kubectl create -f installPrometheusSupport/deployRBAC.yaml`
+* Delete old Prometheus config if available `kubectl delete configmap prometheus-config `
 * Deploy Prometheus configuration `kubectl create configmap prometheus-config --from-file ./installPrometheusSupport/prometheus.yaml`
 * Deploy Prometheus `kubectl apply -f ./installPrometheusSupport/deployPrometheus.yaml`
 * Get IP of Prometheus: `kubectl get service prometheus-service` e.g.: 193.148.173.184

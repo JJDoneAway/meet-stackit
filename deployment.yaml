@@ -54,3 +54,44 @@ spec:
   selector:
     app: meet-stackit
   type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: meet-stackit-test
+  name: meet-stackit-test
+spec:
+  replicas: 2
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: meet-stackit-test
+  template:
+    metadata:
+      labels:
+        app: meet-stackit-test
+    spec:
+      containers:
+      - image: hoehne/meet-stackit-test:latest
+        name: meet-stackit-test
+        resources:
+          requests:
+            memory: 100Mi
+            cpu: 150m
+          limits:
+            memory: 600Mi
+            cpu: 500m
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: actuator/health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: actuator/health
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 3

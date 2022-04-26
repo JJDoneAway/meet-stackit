@@ -36,6 +36,7 @@
 
 * get external IP `kubectl get service meet-stackit-service ` e.g.: 193.148.167.139
 * open http://193.148.167.139:8080/hello?name=Geht Dich nichts an
+* start an interactive linux container in the cluster for investigations `kubectl run -it --rm  --image alpine/curl johannes /bin/sh`
 
 
 # Install K8N Dashboard to get an better visualisation

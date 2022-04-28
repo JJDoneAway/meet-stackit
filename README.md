@@ -8,6 +8,7 @@
 
 * Create K8N Cluster on https://portal.stackit.cloud
 * Download kubeconfig an store it as .kube/config
+* Install Ingress Controller https://kubernetes.github.io/ingress-nginx/deploy/ (`kubectl deploy -f kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml`)
 * check if it you are able to connect `kubectl get all`
 
 

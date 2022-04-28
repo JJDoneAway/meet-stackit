@@ -34,6 +34,11 @@ public class GreetController {
 		this.timer = meterRegistry.timer("GreetController_timer");
 	}
 
+	@GetMapping(path = "/")
+	public String hello() {
+		return "meet-stackit test application";
+	}
+	
 	@GetMapping(path = "hello")
 	public ResponseEntity<Name> greet(@RequestParam(defaultValue = "What is your name: name=xyz") String name) {
 		StopWatch time = StopWatch.createStarted();

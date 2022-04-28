@@ -14,7 +14,7 @@ rules:
   resources:
   - configmaps
   verbs: ["get"]
-- nonResourceURLs: ["actuator/prometheus"]
+- nonResourceURLs: ["/metrics"]
   verbs: ["get"]
 ---
 apiVersion: v1

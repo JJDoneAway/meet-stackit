@@ -74,6 +74,30 @@ spec:
             port:
               number: 80
 ---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: meet-stackit-ingress-block-actuator
+  annotations:
+     nginx.ingress.kubernetes.io/rewrite-target: /$2
+     nginx.ingress.kubernetes.io/server-snippet: |
+      location ~* "^/meet-stackit/actuator" {
+          deny all;
+          return 403;
+        }
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /meet-stackit/actuator(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: meet-stackit-service
+            port:
+              number: 80
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

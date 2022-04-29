@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.Random;
 
 import org.apache.commons.lang3.time.StopWatch;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.hoehne.stackit.test.entity.Name;
+import de.hoehne.stackit.test.services.KillMeService;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
@@ -27,6 +29,9 @@ public class GreetController {
 	private Timer timer;
 
 	private Random random = new Random();
+	
+	@Autowired
+	private KillMeService killMeService;
 
 	public GreetController(MeterRegistry meterRegistry) {
 		this.counter = meterRegistry.counter("GreetController_counter");
@@ -77,6 +82,12 @@ public class GreetController {
 
 		}
 
+	}
+	
+	@GetMapping("/kill/memory")
+	public HttpStatus killMyMemory() {
+		killMeService.killMemory();
+		return HttpStatus.OK;
 	}
 
 }

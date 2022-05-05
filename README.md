@@ -1,8 +1,14 @@
+# meet-stackit demo application
+This repo describes a very manual setup wit no CD integration at all. Just to learn the basic details
+
+
 # Stuff to read
 
 * https://spring.io/guides/gs/spring-boot-kubernetes/
 * https://spring.io/guides/topicals/spring-on-kubernetes/
 * https://medium.com/kubernetes-tutorials/monitoring-your-kubernetes-deployments-with-prometheus-5665eda54045
+* https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md ==> Prometheus Operator
+
 
 # Setup
 
@@ -56,6 +62,7 @@
 * Deploy Prometheus `kubectl apply -f ./installPrometheusSupport/deployPrometheus.yaml`
 * Get IP of Prometheus: `kubectl get service prometheus-service` e.g.: 193.148.173.184
 * Check if UI is available http://193.148.173.184:9090
+
 
 
 

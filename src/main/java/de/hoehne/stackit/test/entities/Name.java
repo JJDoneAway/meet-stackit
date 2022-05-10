@@ -1,4 +1,4 @@
-package de.hoehne.stackit.test.entity;
+package de.hoehne.stackit.test.entities;
 
 import java.time.Duration;
 import java.util.List;

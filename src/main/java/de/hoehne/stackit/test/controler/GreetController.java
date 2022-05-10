@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.hoehne.stackit.test.entity.Name;
+import de.hoehne.stackit.test.entities.Name;
 import de.hoehne.stackit.test.services.KillMeService;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;

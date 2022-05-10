@@ -1,3 +1,7 @@
+# Develop
+* use DEV profile for local development
+* run `docker-compose up` to start Maria DB (same as MySQL)
+
 # Build
 
 * test if application is running as expected `mvn clean spring-boot:run` ==> http://localhost:8080/actuator/health
@@ -5,6 +9,11 @@
 * test docker image `docker run -p 80:8080 meet-stackit:1` ==> http://localhost/actuator
 * tag image as your global one. e.g.: `docker tag meet-stackit:1 hoehne/meet-stackit`
 * push image to remote repo. e.g.: `docker push hoehne/meet-stackit`
+
+#Help
+* start an interactive linux container in the cluster for investigations `kubectl run -it --rm  --image alpine/curl johannes /bin/sh`
+* start an interactive linux container in the cluster for mysql client `kubectl run -it --rm  --image imega/mysql-client mysql /bin/sh`
+
 
 
 

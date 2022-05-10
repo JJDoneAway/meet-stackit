@@ -1,4 +1,4 @@
-package de.hoehne.stackit.test.entity;
+package de.hoehne.stackit.test.entities;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

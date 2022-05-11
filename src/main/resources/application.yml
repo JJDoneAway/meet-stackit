@@ -22,9 +22,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    password: a9sd35b6f3c0a2ed61f1f4feb4222d87283a4dd769a
+    password: ${DB_PASSWORD}
     url: jdbc:mysql://${MYSQL_HOST:msd38a3ec-mysql-0-0.data.eu01.onstackit.cloud}:49273/msd38a3ec
-    username: ${DB_USERNAME}
+    username: a9see5dcbb3cefd6bbfca7ea03b4369
   jpa:
     hibernate:
       ddl-auto: update

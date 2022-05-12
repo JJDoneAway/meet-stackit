@@ -1,5 +1,7 @@
 package de.hoehne.stackit.test.controler;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -7,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,6 +41,14 @@ public class PersonController {
 		return personRepository.findAll();
 	}
 
+	@Timed(value = "get_all_persons", description = "Query all persons from the DB", histogram = true)
+	@Counted(value ="get_all_persons",description = "Counting all requests of all persons")
+	@GetMapping("page/{page}")
+	public @ResponseBody Iterable<Person> getAll(@PathVariable Integer page) {
+		return personRepository.findAll(PageRequest.of(page, 100));
+	}
+
+	
 	@Timed(value = "delete_all_persons", description = "Delete all persons from the DB", histogram = true)
 	@Counted(value ="delete_all_persons",description = "Counting all requests of delete all persons")
 	@DeleteMapping

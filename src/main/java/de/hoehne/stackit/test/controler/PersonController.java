@@ -41,7 +41,7 @@ public class PersonController {
 	@DeleteMapping
 	public @ResponseBody HttpStatus deleteAll() {
 		try {
-			personRepository.deleteAll();
+			personRepository.deleteAllInBatch();
 		} catch (RuntimeException e) {
 			return HttpStatus.INTERNAL_SERVER_ERROR;
 		}

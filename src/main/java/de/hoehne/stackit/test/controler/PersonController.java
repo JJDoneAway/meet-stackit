@@ -1,6 +1,8 @@
 package de.hoehne.stackit.test.controler;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,7 +43,13 @@ public class PersonController {
 	@DeleteMapping
 	public @ResponseBody HttpStatus deleteAll() {
 		try {
-			personRepository.deleteAllInBatch();
+			int page = 0;
+			Page<Person> result;
+			do {
+				result = personRepository.findAll(PageRequest.of(page, 100));
+				personRepository.deleteAll(result);
+				page++;				
+			}while (!result.isEmpty());
 		} catch (RuntimeException e) {
 			return HttpStatus.INTERNAL_SERVER_ERROR;
 		}

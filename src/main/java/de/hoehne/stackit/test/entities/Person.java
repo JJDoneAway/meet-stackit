@@ -1,5 +1,6 @@
 package de.hoehne.stackit.test.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,5 +24,6 @@ public class Person {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
+	@Column(nullable = false)
 	private String name;
 }

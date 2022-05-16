@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,7 @@ import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.annotation.Timed;
 
 @Controller
+@Transactional(timeout = 10)
 @RequestMapping(path = "/person")
 public class PersonController {
 
@@ -34,6 +36,7 @@ public class PersonController {
 	public ResponseEntity<Person> create(@RequestParam String name) {
 		return new ResponseEntity<Person>(personRepository.save(Person.builder().name(name).build()), HttpStatus.OK);
 	}
+	
 	public ResponseEntity<Person> toManyRequests(Throwable e) {
 		return new ResponseEntity<Person>(new Person(), HttpStatus.TOO_MANY_REQUESTS);
 	}

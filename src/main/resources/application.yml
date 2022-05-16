@@ -9,6 +9,7 @@ management:
   metrics:
     tags:
       application: meet-stackit
+    
 server:
   tomcat:
     accesslog:

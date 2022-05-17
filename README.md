@@ -11,7 +11,7 @@
 * push image to remote repo. e.g.: `docker push hoehne/meet-stackit`
 
 #Help
-* start an interactive linux container in the cluster for investigations `kubectl run -it --rm  --image alpine/curl johannes /bin/sh`
+* start an interactive linux container in the cluster for investigations `kubectl -n meet-stackit run -it --rm  --image alpine/curl johannes /bin/sh`
 * start an interactive linux container in the cluster for mysql client `kubectl run -it --rm  --image imega/mysql-client mysql /bin/sh`
 * insert a batch of persons `for ((i=1; i<=500; i++)); do curl -X POST "http://localhost:8080/person?name=Johannes_$i"; done` 
 

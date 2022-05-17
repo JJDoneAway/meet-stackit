@@ -3,6 +3,7 @@ package de.hoehne.stackit.test.controler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ResponseStatusException;
 
 import de.hoehne.stackit.test.entities.Person;
 import de.hoehne.stackit.test.repositories.PersonRepository;
@@ -36,7 +38,7 @@ public class PersonController {
 	public ResponseEntity<Person> create(@RequestParam String name) {
 		return new ResponseEntity<Person>(personRepository.save(Person.builder().name(name).build()), HttpStatus.OK);
 	}
-	
+
 	public ResponseEntity<Person> toManyRequests(Throwable e) {
 		return new ResponseEntity<Person>(new Person(), HttpStatus.TOO_MANY_REQUESTS);
 	}
@@ -44,13 +46,22 @@ public class PersonController {
 	@Timed(value = "get_all_persons", description = "Query all persons from the DB", histogram = true)
 	@Counted(value = "get_all_persons", description = "Counting all requests of all persons")
 	@GetMapping
-	public @ResponseBody Iterable<Person> getAll() {
-		return personRepository.findAll();
+	public ResponseEntity<Iterable<Person>> getAll() throws ResponseStatusException {
+		long amount = personRepository.count();
+		if (amount > 500) {
+			HttpHeaders headers = new HttpHeaders();
+			headers.add(HttpHeaders.WARNING,
+					"We have currently %s persons. This is to large for one result, Please use pagination"
+							.formatted(amount));
+			return new ResponseEntity<>(headers, HttpStatus.PAYLOAD_TOO_LARGE);
+		}
+		return new ResponseEntity<>(personRepository.findAll(), HttpStatus.OK);
 	}
 
 	@Timed(value = "get_all_persons", description = "Query all persons from the DB", histogram = true)
 	@Counted(value = "get_all_persons", description = "Counting all requests of all persons")
 	@GetMapping("page/{page}")
+	@Bulkhead(name = "backendDB")
 	public @ResponseBody Iterable<Person> getAll(@PathVariable Integer page) {
 		return personRepository.findAll(PageRequest.of(page, 100));
 	}
@@ -72,6 +83,5 @@ public class PersonController {
 		}
 		return HttpStatus.NO_CONTENT;
 	}
-
 
 }

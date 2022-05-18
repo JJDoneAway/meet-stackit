@@ -6,6 +6,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,14 +24,26 @@ import de.hoehne.stackit.test.repositories.PersonRepository;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 
 @Controller
 @Transactional(timeout = 10)
 @RequestMapping(path = "/person")
+@EnableScheduling
 public class PersonController {
 
 	@Autowired
 	private PersonRepository personRepository;
+
+	private Counter amount_counter;
+
+	public PersonController(MeterRegistry registry) {
+		this.amount_counter = Counter.builder("person_anount").description("Tells the current amount of persisted persons")
+				.register(registry);
+
+	}
 
 	@Timed(value = "create_person", description = "Upsert person in DB", histogram = true)
 	@Counted(value = "create_person", description = "Counting created persons")
@@ -84,4 +98,9 @@ public class PersonController {
 		return HttpStatus.NO_CONTENT;
 	}
 
+	@Scheduled(fixedDelay = 5_000, initialDelay = 10_000)
+	void monitorAmount() {
+
+		amount_counter.increment(personRepository.count());
+	}
 }

@@ -26,7 +26,6 @@ import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 
 @Controller
 @Transactional(timeout = 10)

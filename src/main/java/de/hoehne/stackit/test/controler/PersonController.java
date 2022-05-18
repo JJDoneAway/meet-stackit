@@ -1,5 +1,8 @@
 package de.hoehne.stackit.test.controler;
 
+import java.math.BigDecimal;
+import java.util.concurrent.atomic.AtomicLong;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +27,7 @@ import de.hoehne.stackit.test.repositories.PersonRepository;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.annotation.Timed;
-import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 
 @Controller
@@ -35,11 +38,12 @@ public class PersonController {
 
 	@Autowired
 	private PersonRepository personRepository;
-
-	private Counter amount_counter;
+	
+	private AtomicLong amount = new AtomicLong(0);
 
 	public PersonController(MeterRegistry registry) {
-		this.amount_counter = Counter.builder("person_anount").description("Tells the current amount of persisted persons")
+		
+		Gauge.builder("person_anount", amount, (amount) -> new BigDecimal(amount.get()).doubleValue() ).description("Tells the current amount of persisted persons")
 				.register(registry);
 
 	}
@@ -100,6 +104,6 @@ public class PersonController {
 	@Scheduled(fixedDelay = 5_000, initialDelay = 10_000)
 	void monitorAmount() {
 
-		amount_counter.increment(personRepository.count());
+		amount.set(personRepository.count());
 	}
 }

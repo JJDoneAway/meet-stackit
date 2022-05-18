@@ -15,7 +15,7 @@ server:
     accesslog:
       buffered: false
       directory: /dev
-      enabled: true
+      enabled: false
       file-date-format: ''
       prefix: stdout
       suffix: ''
@@ -31,7 +31,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
 
 resilience4j.bulkhead:
     configs:

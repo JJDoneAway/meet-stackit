@@ -1,6 +1,7 @@
 package de.hoehne.stackit.test.controler;
 
 import java.math.BigDecimal;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,11 +119,13 @@ public class PersonController {
 	@Async
 	void cleanDB() {
 		if (this.amount.get() > maxPersons * 2) {
+			Random rnd = new Random();
 			log.info("Currently we have to many personsn ({}) persisted. So we delete some", this.amount.get());
 			long curentamount = this.amount.get();
 			long delted = 0;
 			while (curentamount > maxPersons) {
-				Page<Person> toBeDelete = personRepository.findAll(PageRequest.ofSize(100));
+				int page = rnd.nextInt((int)(curentamount/100));
+				Page<Person> toBeDelete = personRepository.findAll(PageRequest.of(page,100));
 				personRepository.deleteAll(toBeDelete);
 				delted += toBeDelete.getNumberOfElements();
 				curentamount = personRepository.count();

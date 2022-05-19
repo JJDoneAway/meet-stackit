@@ -115,7 +115,7 @@ public class PersonController {
 		amount.set(personRepository.count());
 	}
 
-	@Scheduled(fixedDelay = 5_000, initialDelay = 10_000)
+	@Scheduled(fixedDelay = 1_000, initialDelay = 10_000)
 	@Async
 	void cleanDB() {
 		if (this.amount.get() > maxPersons * 2) {
@@ -123,13 +123,12 @@ public class PersonController {
 			log.info("Currently we have to many personsn ({}) persisted. So we delete some", this.amount.get());
 			long curentamount = this.amount.get();
 			long delted = 0;
-			while (curentamount > maxPersons) {
-				int page = rnd.nextInt((int)(curentamount/100));
-				Page<Person> toBeDelete = personRepository.findAll(PageRequest.of(page,100));
-				personRepository.deleteAll(toBeDelete);
-				delted += toBeDelete.getNumberOfElements();
-				curentamount = personRepository.count();
-			}
+			int amountOfToBeDeleted = 10000;
+			int page = rnd.nextInt((int) (curentamount / amountOfToBeDeleted));
+			Page<Person> toBeDelete = personRepository.findAll(PageRequest.of(page, amountOfToBeDeleted));
+			personRepository.deleteAll(toBeDelete);
+			delted += toBeDelete.getNumberOfElements();
+			curentamount = personRepository.count();
 			log.info("We deleted {} persons. Now we have {} persons", delted, curentamount);
 
 		}

@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "max-persons",
+  "type": "java.lang.Long",
+  "description": "'max-persons' wich can be persisted"
+}]}

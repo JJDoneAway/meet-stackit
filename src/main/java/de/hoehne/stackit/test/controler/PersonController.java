@@ -4,11 +4,13 @@ import java.math.BigDecimal;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -29,22 +31,27 @@ import io.micrometer.core.annotation.Counted;
 import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Transactional(timeout = 10)
 @RequestMapping(path = "/person")
 @EnableScheduling
+@Slf4j
 public class PersonController {
 
 	@Autowired
 	private PersonRepository personRepository;
-	
+
+	@Value("${max-persons}")
+	private long maxPersons;
+
 	private AtomicLong amount = new AtomicLong(0);
 
 	public PersonController(MeterRegistry registry) {
-		
-		Gauge.builder("person_anount", amount, (amount) -> new BigDecimal(amount.get()).doubleValue() ).description("Tells the current amount of persisted persons")
-				.register(registry);
+
+		Gauge.builder("person_anount", amount, (amount) -> new BigDecimal(amount.get()).doubleValue())
+				.description("Tells the current amount of persisted persons").register(registry);
 
 	}
 
@@ -105,5 +112,23 @@ public class PersonController {
 	void monitorAmount() {
 
 		amount.set(personRepository.count());
+	}
+
+	@Scheduled(fixedDelay = 5_000, initialDelay = 10_000)
+	@Async
+	void cleanDB() {
+		if (this.amount.get() > maxPersons * 2) {
+			log.info("Currently we have to many personsn ({}) persisted. So we delete some", this.amount.get());
+			long curentamount = this.amount.get();
+			long delted = 0;
+			while (curentamount > maxPersons) {
+				Page<Person> toBeDelete = personRepository.findAll(PageRequest.ofSize(100));
+				personRepository.deleteAll(toBeDelete);
+				delted += toBeDelete.getNumberOfElements();
+				curentamount = personRepository.count();
+			}
+			log.info("We deleted {} persons. Now we have {} persons", delted, curentamount);
+
+		}
 	}
 }

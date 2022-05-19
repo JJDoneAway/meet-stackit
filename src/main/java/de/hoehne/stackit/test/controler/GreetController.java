@@ -6,7 +6,6 @@ import java.util.Random;
 import org.apache.commons.lang3.time.StopWatch;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +16,6 @@ import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@EnableScheduling
 @Slf4j
 public class GreetController {
 

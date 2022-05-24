@@ -120,7 +120,7 @@ public class PersonController {
 	void cleanDB() {
 		if (this.amount.get() > maxPersons * 2) {
 			Random rnd = new Random();
-			log.info("Currently we have to many personsn ({}) persisted. So we delete some", this.amount.get());
+			log.info("Currently we have to many personsn ({}) persisted. We accesp not more that {}. So we delete some", this.amount.get(), 2* this.maxPersons);
 			long curentamount = this.amount.get();
 			long delted = 0;
 			int amountOfToBeDeleted = 10000;

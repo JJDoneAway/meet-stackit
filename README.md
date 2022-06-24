@@ -17,6 +17,18 @@
 
 
 
+# Access STACKIT services via cf
+1. start cf as Docker 
+
+```
+docker run -it --mount src=`pwd`,target=/home/piper/app,type=bind ppiper/cf-cli:latest /bin/bash
+```
+2. login to host `cf login -a https://api.system.01.cf.eu01.stackit.cloud --sso`
+
+
+
+
+
 
 
 
